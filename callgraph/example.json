@@ -1,0 +1,27 @@
+{
+  "components": [
+    {
+      "name": "Parent",
+      "functions": ["aboutToAppear", "onDidBuild", "aboutToDisappear", "build"],
+      "events": ["UserEvent.Parent.ButtonClick"]
+    },
+    {
+      "name": "Child",
+      "functions": ["aboutToAppear", "onDidBuild", "aboutToDisappear", "build"],
+      "events": ["UserEvent.Child.TextClick"]
+    }
+  ],
+  "order": [
+    {"pred": "SystemEvent.App.Start", "succ": "Parent.aboutToAppear"},
+    {"pred": "Parent.aboutToAppear", "succ": "Parent.build"},
+    {"pred": "Parent.build", "succ": "Parent.onDidBuild"},
+    {"pred": "Parent.onDidBuild", "succ": "Child.aboutToAppear"},
+    {"pred": "Child.aboutToAppear", "succ": "Child.build"},
+    {"pred": "Child.build", "succ": "Child.onDidBuild"},
+    {"pred": "UserEvent.Parent.ButtonClick", "succ": "Child.aboutToDisappear"},
+    {"pred": "UserEvent.Parent.ButtonClick", "succ": "Child.aboutToAppear"},
+    {"pred": "UserEvent.Child.TextClick", "succ": "Child.build"},
+    {"pred": "SystemEvent.App.Close", "succ": "Parent.aboutToDisappear"},
+    {"pred": "Parent.aboutToDisappear", "succ": "Child.aboutToDisappear"}
+  ]
+}
